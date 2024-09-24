@@ -1,6 +1,8 @@
-﻿namespace NorionTest.Domain
+﻿using NorionTest.Domain.Interfaces;
+
+namespace NorionTest.Domain
 {
-    public class Motorbike : Vehicle
+    public class Motorbike : IVehicle
     {
         public string GetVehicleType()
         {
