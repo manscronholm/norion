@@ -6,4 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\1. Domain\NorionTest.Domain\NorionTest.Domain.csproj" />
+      <ProjectReference Include="..\..\2. Application\NorionTest.Application\NorionTest.Application.csproj" />
+      <ProjectReference Include="..\..\3. Infrastructure\NorionTest.Infrastructure\NorionTest.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
