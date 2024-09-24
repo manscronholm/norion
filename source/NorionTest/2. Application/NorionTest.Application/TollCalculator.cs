@@ -1,4 +1,4 @@
-using NorionTest.Domain;
+﻿using NorionTest.Domain;
 using NorionTest.Domain.Interfaces;
 
 namespace NorionTest.Application;
@@ -95,15 +95,5 @@ public class TollCalculator
             }
         }
         return false;
-    }
-
-    private enum TollFreeVehicles
-    {
-        Motorbike = 0,
-        Tractor = 1,
-        Emergency = 2,
-        Diplomat = 3,
-        Foreign = 4,
-        Military = 5
     }
 }
