@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{A0FD723D-76A5-407C-96B5-C8682569347E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{18A9E669-21DA-4D86-89C3-75768F905D8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infrastructure", "3. Infrastructure", "{57E0D18D-DCB3-4945-B5D1-48177A817173}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Presentation", "4. Presentation", "{4DE59523-F2F2-49C1-B07B-C760EB15D931}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorionTest.BlazorApp", "4. Presentation\NorionTest.BlazorApp\NorionTest.BlazorApp.csproj", "{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorionTest.Infrastructure", "3. Infrastructure\NorionTest.Infrastructure\NorionTest.Infrastructure.csproj", "{484BD192-BE6F-43A1-BE75-09009DF2D023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorionTest.Application", "2. Application\NorionTest.Application\NorionTest.Application.csproj", "{1D7B561D-5609-4C88-A5BB-FFBEBA754223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorionTest.Domain", "1. Domain\NorionTest.Domain\NorionTest.Domain.csproj", "{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{484BD192-BE6F-43A1-BE75-09009DF2D023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{484BD192-BE6F-43A1-BE75-09009DF2D023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{484BD192-BE6F-43A1-BE75-09009DF2D023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{484BD192-BE6F-43A1-BE75-09009DF2D023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7B561D-5609-4C88-A5BB-FFBEBA754223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7B561D-5609-4C88-A5BB-FFBEBA754223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7B561D-5609-4C88-A5BB-FFBEBA754223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7B561D-5609-4C88-A5BB-FFBEBA754223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C02858D-0D6D-45FE-B7E6-D2FF964AFB5E} = {4DE59523-F2F2-49C1-B07B-C760EB15D931}
+		{484BD192-BE6F-43A1-BE75-09009DF2D023} = {57E0D18D-DCB3-4945-B5D1-48177A817173}
+		{1D7B561D-5609-4C88-A5BB-FFBEBA754223} = {18A9E669-21DA-4D86-89C3-75768F905D8F}
+		{A9E5FE9E-C29F-4E15-BF68-7BB773E2FBD6} = {A0FD723D-76A5-407C-96B5-C8682569347E}
+	EndGlobalSection
+EndGlobal
