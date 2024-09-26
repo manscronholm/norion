@@ -8,12 +8,16 @@ public static class VehicleExtensions
     {
         if (vehicle == null) return false;
         
-        var vehicleType = vehicle.GetVehicleType();
-        return vehicleType.Equals(TollFreeVehicles.Motorbike.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Military.ToString());
+        var tollFreeVehicleTypes = new List<string>
+        {
+            TollFreeVehicles.Motorbike.ToString(),
+            TollFreeVehicles.Tractor.ToString(),
+            TollFreeVehicles.Emergency.ToString(),
+            TollFreeVehicles.Diplomat.ToString(),
+            TollFreeVehicles.Foreign.ToString(),
+            TollFreeVehicles.Military.ToString()
+        };
+
+        return tollFreeVehicleTypes.Contains(vehicle.GetVehicleType());
     }
 }
