@@ -6,20 +6,21 @@ namespace NorionTest.Application.TollCalculators;
 
 public class TollFeeCalculator : ITollFeeCalculator
 {
+    private readonly ICollection<TollFeePeriod> _tollFeePeriods = new List<TollFeePeriod>
+    {
+        new(new TimeOnly(6, 0), new TimeOnly(6, 29, 59), 8),
+        new(new TimeOnly(6, 30), new TimeOnly(6, 59, 59), 13),
+        new(new TimeOnly(7, 0), new TimeOnly(7, 59, 59), 18),
+        new(new TimeOnly(8, 0), new TimeOnly(8, 29, 59), 13),
+        new(new TimeOnly(8, 30), new TimeOnly(14, 59, 59), 8),
+        new(new TimeOnly(15, 0), new TimeOnly(15, 29, 59), 13),
+        new(new TimeOnly(15, 30), new TimeOnly(16,59, 59), 18),
+        new(new TimeOnly(17, 0), new TimeOnly(17, 59, 59), 13),
+        new(new TimeOnly(18, 0), new TimeOnly(18, 29, 59), 8)
+    };
+    
     public int CalculateTollFee(DateTime date)
     {
-        var hour = date.Hour;
-        var minute = date.Minute;
-
-        if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-        else if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-        else if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-        else if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-        else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;
-        else if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-        else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;
-        else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-        else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-        else return 0;
+        return _tollFeePeriods.FirstOrDefault(fee => fee.IsWithinPeriod(date))?.Fee ?? 0;
     }
 }
