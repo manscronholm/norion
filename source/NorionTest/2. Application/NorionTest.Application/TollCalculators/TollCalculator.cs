@@ -1,4 +1,5 @@
-﻿using NorionTest.Application.Interfaces;
+﻿using NorionTest.Application.Extensions;
+using NorionTest.Application.Interfaces;
 using NorionTest.Application.TollCalculators.Interfaces;
 using NorionTest.Domain.Interfaces;
 
@@ -50,21 +51,11 @@ public class TollCalculator
 
     private int GetTollFee(DateTime date, IVehicle vehicle)
     {
-        if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
+        if (IsTollFreeDate(date) || vehicle.IsTollFreeVehicle()) return 0;
         return _tollFeeCalculator.CalculateTollFee(date);
     }
 
-    private bool IsTollFreeVehicle(IVehicle vehicle)
-    {
-        if (vehicle == null) return false;
-        var vehicleType = vehicle.GetVehicleType();
-        return vehicleType.Equals(TollFreeVehicles.Motorbike.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-               vehicleType.Equals(TollFreeVehicles.Military.ToString());
-    }
+    
 
     private bool IsTollFreeDate(DateTime date)
     {
