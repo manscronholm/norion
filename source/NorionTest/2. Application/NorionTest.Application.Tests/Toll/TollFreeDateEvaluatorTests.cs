@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
-using NorionTest.Application.Extensions;
+using NorionTest.Application.Toll;
+using NorionTest.Application.Toll.TollCalculators;
 
-namespace NorionTest.Application.Tests.Extensions;
+namespace NorionTest.Application.Tests.Toll;
 
-public class DateTimeExtensionTests
+public class TollFreeDateEvaluatorTests
 {
     
     [Theory]
@@ -29,8 +30,9 @@ public class DateTimeExtensionTests
     public void IsTollFreeDate_WithTollFreeDate_ShouldReturnTrue(int year, int month, int day)
     {
         var date = new DateTime(year, month, day);
+        var sut = new TollFreeDateEvaluator();
 
-        var result = date.IsTollFreeDate();
+        var result = sut.IsTollFreeDate(date);
 
         result.Should().BeTrue();
     }
@@ -43,8 +45,9 @@ public class DateTimeExtensionTests
     public void IsTollFreeDate_WithDateDuringWeekend_ShouldReturnTrue(int year, int month, int day)
     {
         var date = new DateTime(year, month, day);
+        var sut = new TollFreeDateEvaluator();
 
-        var result = date.IsTollFreeDate();
+        var result = sut.IsTollFreeDate(date);
 
         result.Should().BeTrue();
     }
@@ -57,8 +60,9 @@ public class DateTimeExtensionTests
     public void IsTollFreeDate_WithNonTollFreeDate_ShouldReturnFalse(int year, int month, int day)
     {
         var date = new DateTime(year, month, day);
+        var sut = new TollFreeDateEvaluator();
 
-        var result = date.IsTollFreeDate();
+        var result = sut.IsTollFreeDate(date);
 
         result.Should().BeFalse();
     }
