@@ -1,0 +1,92 @@
+
+Step 1: 
+Skapa en solution och en projektstruktur enligt onion architecture. 
+Placera in existerande filer där de bör vara enligt denna modell.
+
+Motivering:
+Det har blivit mer eller mindre standard för mig när jag arbetar i en ny solution att
+strukturera upp lösningen enligt "onion architecture" redan från början. Dels är det ett sätt för mig att bibehålla en
+logisk struktur kring vart olika filer bör ligga, för att på så sätt hitta bättre i en lösning efter att den växt. Men
+det är också ett mycket bra sätt att separera ut delar av applikationen i enskilda lager där varje lager syftar till att
+hantera sitt specifika område. Jag brukar strukturera min kod enligt denna model, även fast jag för 
+tillfället inte är i behov av varje lager. I min mening så kostar det mig väldigt lite att ha dessa lager på 
+plats, även fast de är tomma.
+
+Kortfattat brukar jag förklara de olika lagerna såhär:
+
+Domain:
+Det innersta lagret i "löken". Här lägger vi våra allra mest centrala klasser. Om vi har en databas är det inte 
+ovanligt att det här lagret nästan speglar våra tabeller. I det här lagret samlar vi mycket sällan någon form av 
+logik, utan här har vi mest råa datamodeller.
+
+Application:
+Utanpå domain har vi applikationslagret. Här samlar vi logiken som verkar på våra domänklasser med tillhörande DTO'er.
+
+Infrastructure:
+Här samlar vi koden som berör applikationens infrastruktur, t.ex klasser som sparar och hämtar data från externa källor eller
+internationalisering.
+
+Presentation:
+Detta är vårt presentationslager, här samlar vi gränssnittet som skall fronta våran applikation. 
+T.ex en webbapplikation eller ett web-API.
+
+Fördelen med det här sättet att strukturera sin kod är att varje lager enbart är beroende av innanliggande lager. 
+Domainlagret har och får inte ha beroenden mot kod som inte ligger i dennes lager, application lagret är bara 
+beroende av domain o.s.v. Detta medför lösa kopplingar mellan lagren där man t.ex skulle kunna byta ut ett yttre lager
+utan att överhuvudtaget påverka funktionsdugligheten på koden i innanliggande lager. Detta blir viktigt i fall där 
+man t.ex vill byta ut en frontend-framework eller ORM.
+
+Det jag vill säga med den här lilla utläggningen är att om man har en genomtänkt struktur med fasta beroendekedjor från
+början så kan man undvika mycket huvudvärk framöver, sen får man en snygg struktur som är lätt att hitta i dessutom. Jag
+brukar också vilja spegla strukturen både i filsystemet och i solution-filen för att på så sätt underlätta för utvecklare
+som inte nödvändigtvis arbetar i en IDE.
+
+Step 2:
+Skriv tester.
+
+Koden saknar idag tester, vilket oroar mig inför min planerade refaktorering. Mitt nästa steg blir därför att 
+skriva tester för koden, så att jag sedan kan refaktorera koden utan att behöva oroa mig över att jag har sönder någonting.
+
+Min "test-stack of choice" blir xUnit, NSubstitute och FluentAssertions. 
+Jag har ingen större motivering till mitt val mer än att de är dessa jag är mest bekväm med.
+
+Step 3:
+Refaktorering.
+
+Resultatet blev ganska så omfattande så jag väljer här att lista de mest relevanta besluten jag tagit.
+
+Från början var all logik samlad i 'TollCalculator' så mitt första steg var att bryta ut delar av logiken till egna klasser.
+Detta gör jag delvis för att möjliggöra testning av specifika delar av koden, men också för att främja 'single-responsibility'-principen.
+
+Jag listar nedan de nya klasser som jag har skapat:
+
+- TollFeeCalculator -
+Här samlade jag reglerna för vilken avgift som skall gälla vid olika tidpunkter på dygnet. 
+Jag valde att skapa en struktur som kan hålla tidsintervallet och avgiften i ett och samma objekt, jag kallar detta för TollFeePeriod. 
+Detta möjliggjorde i sin tur att jag kunde skapa en lista av dessa objekt vilket gör det enklare att få en överblick 
+av intervallen, och också att hantera dessa. 
+
+Jag valde att skapa TollFeePeriod som ett 'record' istället för en klass i syfte att nyttja 
+dess immutability, men också för att i framtiden på ett enklare sätt kunna jämföra perioderna med 
+varandra för att kolla efter överlapp och dylikt.
+
+- TollFreeDateEvaluator -
+Här samlade jag reglerna för vad som i applikationen anses vara en avgiftsfri dag. Dels består den av en lista med 
+funktioner som utgör reglerna för om en dag skall anses som avgiftsfri eller inte. Genom att samla reglerna som en 
+lista av funktioner så möjliggör det att på ett enklare sätt kunna addera regler i framtiden utan att behöva påverka 
+befintlig funktionalitet, vilket var fallet tidigare.
+
+Jag har också gjort en lista av datum för helgdagar under 2013. Här skulle jag på sikt gärna skapat funktionalitet 
+för att räkna ut dessa datum dynamiskt baserat på ett angivet år. 
+
+- VehicleExtensions -
+Jag valde att skapa en extension-metod på IVehicle för att avgöra ifall ett fordon skall anses som avgiftsbefriat eller inte.
+Jag övervägde att göra detsamma på DateTime för att avgöra om ett datum var avgiftsfritt, men valde där att istället gå vägen som jag förklarat ovan.
+
+Anledningen till att det inte blev en extension-metod på DateTime är för att jag anser att om man skall göra en extension-metod på en 
+typ så skall den vara generellt applicerbar, vilket jag inte tycker att den är i fallet med DateTime. Jag tänker att varje gång man 
+använder en IVehicle i den här applikationen så skulle det kunna vara av intresse att ta reda på ifall det är ett avgiftsbefriat fordon eller inte. 
+Jag tror däremot inte att samma sak gäller för DateTime, då det är en mer generell typ med mycket bredare användningsområden.
+
+
+
