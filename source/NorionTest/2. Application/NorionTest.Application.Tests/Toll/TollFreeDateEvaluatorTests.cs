@@ -19,14 +19,11 @@ public class TollFreeDateEvaluatorTests
     [InlineData(2013, 6, 5)]  
     [InlineData(2013, 6, 6)]  
     [InlineData(2013, 6, 21)] 
-    [InlineData(2013, 7, 1)]  
-    [InlineData(2013, 7, 15)] 
-    [InlineData(2013, 11, 1)] 
+    [InlineData(2013, 11, 2)] 
     [InlineData(2013, 12, 24)] 
     [InlineData(2013, 12, 25)] 
     [InlineData(2013, 12, 26)] 
     [InlineData(2013, 12, 31)] 
-    [InlineData(2013, 7, 31)] 
     public void IsTollFreeDate_WithTollFreeDate_ShouldReturnTrue(int year, int month, int day)
     {
         var date = new DateTime(year, month, day);
@@ -36,7 +33,7 @@ public class TollFreeDateEvaluatorTests
 
         result.Should().BeTrue();
     }
-    
+
     [Theory]
     // Saturday
     [InlineData(2024, 09, 28)]
@@ -65,5 +62,25 @@ public class TollFreeDateEvaluatorTests
         var result = sut.IsTollFreeDate(date);
 
         result.Should().BeFalse();
+    }
+    
+    [Theory]
+    [MemberData(nameof(JulyDates))]
+    public void IsTollFreeDate_WithDatesInJuly_ShouldReturnTrue(DateTime date)
+    {
+        var sut = new TollFreeDateEvaluator();
+
+        var result = sut.IsTollFreeDate(date);
+
+        result.Should().BeTrue();
+    }
+    
+    public static IEnumerable<object[]> JulyDates()
+    {
+        for (var day = 1; day <= 31; day++)
+        {
+            var date = new DateTime(2013, 7, day);
+            yield return [date];
+        }
     }
 }

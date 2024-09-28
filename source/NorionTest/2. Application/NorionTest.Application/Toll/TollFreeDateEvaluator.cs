@@ -4,28 +4,48 @@ namespace NorionTest.Application.Toll;
 
 public class TollFreeDateEvaluator : ITollFreeDateEvaluator
 {
+    private static readonly List<Func<DateTime, bool>> TollFreeRules =
+    [
+        date => date.DayOfWeek == DayOfWeek.Saturday,
+        date => date.DayOfWeek == DayOfWeek.Sunday,
+        date => date.Month == 7,
+        date => date.Year == 2013 && IsHolidayOrDayBeforeHoliday(date)
+    ];
+
+    private static readonly List<DateTime> Holidays =
+    [
+        // January
+        new(2013, 1, 1),
+        // March
+        new(2013, 3, 28),
+        new(2013, 3, 29),
+        // April
+        new(2013, 4, 1),
+        new(2013, 4, 30),
+        // May
+        new(2013, 5, 1),
+        new(2013, 5, 8),
+        new(2013, 5, 9),
+        // June
+        new(2013, 6, 5),
+        new(2013, 6, 6),
+        new(2013, 6, 21),
+        // November
+        new(2013, 11, 02),
+        // December
+        new(2013, 12, 24), 
+        new(2013, 12, 25), 
+        new(2013, 12, 26), 
+        new(2013, 12, 31),
+    ];
+    
     public bool IsTollFreeDate(DateTime date)
-        {
-            var year = date.Year;
-            var month = date.Month;
-            var day = date.Day;
+    {
+        return TollFreeRules.Any(rule => rule(date));
+    }
     
-            if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday) return true;
-    
-            if (year == 2013)
-            {
-                if (month == 1 && day == 1 ||
-                    month == 3 && (day == 28 || day == 29) ||
-                    month == 4 && (day == 1 || day == 30) ||
-                    month == 5 && (day == 1 || day == 8 || day == 9) ||
-                    month == 6 && (day == 5 || day == 6 || day == 21) ||
-                    month == 7 ||
-                    month == 11 && day == 1 ||
-                    month == 12 && (day == 24 || day == 25 || day == 26 || day == 31))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+    private static bool IsHolidayOrDayBeforeHoliday(DateTime date)
+    {
+        return Holidays.Contains(date) || Holidays.Contains(date.AddDays(-1));
+    }
 }
