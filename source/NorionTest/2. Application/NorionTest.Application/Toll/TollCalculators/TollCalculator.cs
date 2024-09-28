@@ -1,17 +1,20 @@
 ﻿using NorionTest.Application.Extensions;
-using NorionTest.Application.Interfaces;
-using NorionTest.Application.TollCalculators.Interfaces;
+using NorionTest.Application.Toll.Interfaces;
+using NorionTest.Application.Toll.TollCalculators.Interfaces;
 using NorionTest.Domain.Interfaces;
 
-namespace NorionTest.Application.TollCalculators;
+namespace NorionTest.Application.Toll.TollCalculators;
 
 public class TollCalculator
 {
     private readonly ITollFeeCalculator _tollFeeCalculator;
+    private readonly ITollFreeDateEvaluator _tollFreeDateEvaluator;
 
-    public TollCalculator(ITollFeeCalculator tollFeeCalculator)
+    public TollCalculator(ITollFeeCalculator tollFeeCalculator, 
+        ITollFreeDateEvaluator tollFreeDateEvaluator)
     {
         _tollFeeCalculator = tollFeeCalculator;
+        _tollFreeDateEvaluator = tollFreeDateEvaluator;
     }
 
     /**
@@ -51,7 +54,7 @@ public class TollCalculator
 
     private int GetTollFee(DateTime date, IVehicle vehicle)
     {
-        if (date.IsTollFreeDate() || vehicle.IsTollFreeVehicle()) return 0;
+        if (_tollFreeDateEvaluator.IsTollFreeDate(date) || vehicle.IsTollFreeVehicle()) return 0;
         return _tollFeeCalculator.CalculateTollFee(date);
     }
 }

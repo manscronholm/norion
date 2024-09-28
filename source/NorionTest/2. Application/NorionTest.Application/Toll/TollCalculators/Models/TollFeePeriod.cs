@@ -1,4 +1,4 @@
-﻿namespace NorionTest.Application.TollCalculators.Models;
+﻿namespace NorionTest.Application.Toll.TollCalculators.Models;
 
 public record TollFeePeriod(TimeOnly StartTime, TimeOnly EndTime, int Fee)
 {

@@ -1,4 +1,4 @@
-﻿namespace NorionTest.Application.TollCalculators.Interfaces;
+﻿namespace NorionTest.Application.Toll.TollCalculators.Interfaces;
 
 public interface ITollFeeCalculator
 {

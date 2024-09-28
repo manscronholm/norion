@@ -1,4 +1,4 @@
-﻿namespace NorionTest.Application;
+﻿namespace NorionTest.Application.Toll.Models;
 
 public enum TollFreeVehicles
 {

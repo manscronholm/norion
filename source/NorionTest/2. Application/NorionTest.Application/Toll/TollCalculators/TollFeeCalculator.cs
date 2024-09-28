@@ -1,8 +1,7 @@
-﻿
-using NorionTest.Application.TollCalculators.Interfaces;
-using NorionTest.Application.TollCalculators.Models;
+﻿using NorionTest.Application.Toll.TollCalculators.Interfaces;
+using NorionTest.Application.Toll.TollCalculators.Models;
 
-namespace NorionTest.Application.TollCalculators;
+namespace NorionTest.Application.Toll.TollCalculators;
 
 public class TollFeeCalculator : ITollFeeCalculator
 {

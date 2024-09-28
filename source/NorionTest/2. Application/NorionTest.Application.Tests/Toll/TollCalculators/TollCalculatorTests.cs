@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
+using NorionTest.Application.Toll.Models;
+using NorionTest.Application.Toll.TollCalculators;
 using NorionTest.Domain;
 using NorionTest.Domain.Interfaces;
 using NSubstitute;
 
-namespace NorionTest.Application.Tests;
+namespace NorionTest.Application.Tests.Toll.TollCalculators;
 
 public class TollCalculatorTests
 {
@@ -18,7 +20,7 @@ public class TollCalculatorTests
     {
         var vehicleMock = Substitute.For<IVehicle>();
         vehicleMock.GetVehicleType().Returns(Enum.GetName(typeof(TollFreeVehicles), tollFreeVehicle));
-        var sut = new TollCalculator();
+        var sut = new TollCalculator(null, null);
 
         var result = sut.GetTollFee(vehicleMock, GetNonTollFreeDates());
 
@@ -29,18 +31,18 @@ public class TollCalculatorTests
     public void GetTollFee_WithNonTollFreeVehicle_ShouldReturnFee()
     {
         var car = new Car();
-        var sut = new TollCalculator();
+        var sut = new TollCalculator(null, null);
 
         var result = sut.GetTollFee(car, GetNonTollFreeDates());
 
-        result.Should().BePositive();
+        result.Should().BePositive(null);
     }
 
     [Fact]
     public void GetTollFee_DuringTollFreeDate_ShouldReturnZero()
     {
         var car = new Car();
-        var sut = new TollCalculator();
+        var sut = new TollCalculator(null, null);
 
         var result = sut.GetTollFee(car, GetTollFreeDates());
 
@@ -51,7 +53,7 @@ public class TollCalculatorTests
     public void GetTollFee_DuringNonTollFreeDate_ShouldReturnFee()
     {
         var car = new Car();
-        var sut = new TollCalculator();
+        var sut = new TollCalculator(null, null);
 
         var result = sut.GetTollFee(car, GetNonTollFreeDates());
 

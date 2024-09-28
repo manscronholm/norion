@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using NorionTest.Application.TollCalculators;
+using NorionTest.Application.Toll.TollCalculators;
 
-namespace NorionTest.Application.Tests.TollCalculators;
+namespace NorionTest.Application.Tests.Toll.TollCalculators;
 
 public class TollFeeCalculatorTests
 {

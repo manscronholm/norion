@@ -1,4 +1,5 @@
-﻿using NorionTest.Domain.Interfaces;
+﻿using NorionTest.Application.Toll.Models;
+using NorionTest.Domain.Interfaces;
 
 namespace NorionTest.Application.Extensions;
 
