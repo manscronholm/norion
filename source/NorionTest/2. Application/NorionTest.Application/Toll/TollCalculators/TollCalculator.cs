@@ -5,58 +5,56 @@ using NorionTest.Domain.Interfaces;
 
 namespace NorionTest.Application.Toll.TollCalculators;
 
-public class TollCalculator
+public class TollCalculator(
+    ITollFeeCalculator tollFeeCalculator,
+    ITollFreeDateEvaluator tollFreeDateEvaluator) : ITollCalculator
 {
-    private readonly ITollFeeCalculator _tollFeeCalculator;
-    private readonly ITollFreeDateEvaluator _tollFreeDateEvaluator;
+    private const int MaximumDailyFee = 60;
 
-    public TollCalculator(ITollFeeCalculator tollFeeCalculator, 
-        ITollFreeDateEvaluator tollFreeDateEvaluator)
+    public int GetTollFee(IVehicle vehicle, DateTime[] passings)
     {
-        _tollFeeCalculator = tollFeeCalculator;
-        _tollFreeDateEvaluator = tollFreeDateEvaluator;
+        if (passings.Length == 0) return 0;
+        
+        var initialPassing = passings.Min();
+        var totalFee = 0;
+        
+        foreach (var passing in passings)
+        {
+            totalFee = UpdateTotalFee(passing, initialPassing, totalFee, vehicle);
+        }
+        
+        return totalFee > MaximumDailyFee 
+            ? MaximumDailyFee 
+            : totalFee;
     }
 
-    /**
- * Calculate the total toll fee for one day
- *
- * @param vehicle - the vehicle
- * @param dates   - date and time of all passes on one day
- * @return - the total toll fee for that day
- */
-
-    public int GetTollFee(IVehicle vehicle, DateTime[] dates)
+    private int UpdateTotalFee(DateTime passing, DateTime initialPassing, int totalFee, IVehicle vehicle)
     {
-        if (dates.Length == 0) return 0;
+        var currentFee = GetTollFee(passing, vehicle);
+        var initialFee = GetTollFee(initialPassing, vehicle);
         
-        var intervalStart = dates[0];
-        var totalFee = 0;
-        foreach (var date in dates)
+        if (VehiclePassedInTheLastHour(passing, initialPassing))
         {
-            var nextFee = GetTollFee(date, vehicle);
-            var tempFee = GetTollFee(intervalStart, vehicle);
-
-            var diffInMillies = (date - intervalStart).TotalMilliseconds;
-            var minutes = diffInMillies/1000/60;
-
-            if (minutes <= 60)
-            {
-                if (totalFee > 0) totalFee -= tempFee;
-                if (nextFee >= tempFee) tempFee = nextFee;
-                totalFee += tempFee;
-            }
-            else
-            {
-                totalFee += nextFee;
-            }
+            if (totalFee > 0) totalFee -= initialFee;
+            if (currentFee >= initialFee) initialFee = currentFee;
+            totalFee += initialFee;
+            return totalFee;
         }
-        if (totalFee > 60) totalFee = 60;
+
+        totalFee += currentFee;
         return totalFee;
     }
-
+    
     private int GetTollFee(DateTime date, IVehicle vehicle)
     {
-        if (_tollFreeDateEvaluator.IsTollFreeDate(date) || vehicle.IsTollFreeVehicle()) return 0;
-        return _tollFeeCalculator.CalculateTollFee(date);
+        if (tollFreeDateEvaluator.IsTollFreeDate(date) || vehicle.IsTollFreeVehicle()) return 0;
+        return tollFeeCalculator.CalculateTollFee(date);
+    }
+
+    private static bool VehiclePassedInTheLastHour(DateTime passing, DateTime initialPassing)
+    {
+        var diffInMilliseconds = (passing - initialPassing).TotalMilliseconds;
+        var diffInMinutes = diffInMilliseconds/1000/60;
+        return diffInMinutes <= 60;
     }
 }
