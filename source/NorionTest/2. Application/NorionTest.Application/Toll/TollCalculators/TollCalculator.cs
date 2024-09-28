@@ -33,7 +33,7 @@ public class TollCalculator(
         var currentFee = GetTollFee(passing, vehicle);
         var initialFee = GetTollFee(initialPassing, vehicle);
         
-        if (VehiclePassedInTheLastHour(passing, initialPassing))
+        if (PassingIsWithinTheHourOfInitialPassing(passing, initialPassing))
         {
             if (totalFee > 0) totalFee -= initialFee;
             if (currentFee >= initialFee) initialFee = currentFee;
@@ -51,7 +51,7 @@ public class TollCalculator(
         return tollFeeCalculator.CalculateTollFee(date);
     }
 
-    private static bool VehiclePassedInTheLastHour(DateTime passing, DateTime initialPassing)
+    private static bool PassingIsWithinTheHourOfInitialPassing(DateTime passing, DateTime initialPassing)
     {
         var diffInMilliseconds = (passing - initialPassing).TotalMilliseconds;
         var diffInMinutes = diffInMilliseconds/1000/60;
